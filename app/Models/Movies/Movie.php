@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Models\Watchlist;
+namespace App\Models\Movies;
 
+use App\Models\Watchlist\Watchlist;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'imdb_id',
@@ -52,5 +54,10 @@ class Movie extends Model
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
+    }
+
+    public function watchlists(): HasMany
+    {
+        return $this->hasMany(Watchlist::class);
     }
 }

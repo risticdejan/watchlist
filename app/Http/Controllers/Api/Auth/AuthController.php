@@ -10,7 +10,6 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
-
 class AuthController extends Controller
 {
 
@@ -18,11 +17,24 @@ class AuthController extends Controller
         private UserService $userService
     ) {}
 
+    /**
+     * @param RegisterRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(RegisterRequest $request)
     {
         $validated = $request->validated();
 
         $token = $this->userService->registerUser(RegisterDto::apply($validated));
+
+        if (! $token) {
+            return response()->json(
+                data: [
+                    'message' => 'User already exists',
+                ],
+                status: 422
+            );
+        }
 
         return response()->json(
             data: [
@@ -33,6 +45,10 @@ class AuthController extends Controller
         );
     }
 
+    /**
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(LoginRequest $request)
     {
         $validated = $request->validated();
@@ -58,6 +74,10 @@ class AuthController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
         $user = $request->user();

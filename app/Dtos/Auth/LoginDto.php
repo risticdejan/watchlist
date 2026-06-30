@@ -9,6 +9,10 @@ class LoginDto
         public readonly string $password,
     ) {}
 
+    /**
+     * @param array $data
+     * @return self
+     */
     public static function apply(array $data): self
     {
         return new self(

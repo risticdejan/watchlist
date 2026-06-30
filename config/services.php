@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'omdb' => [
+        'base_uri' => env('OMDB_BASE_URI', 'http://www.omdbapi.com/'),
+        'key' => env('OMDB_API_KEY'),
+    ],
+
 ];

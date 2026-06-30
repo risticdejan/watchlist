@@ -8,6 +8,12 @@ use App\Repositories\Contracts\UserRepository;
 
 class EloquentUserRepository implements UserRepository
 {
+    /**
+     * Create a new user.
+     *
+     * @param RegisterDto $dto
+     * @return User
+     */
     public function create(RegisterDto $dto): User
     {
         return User::create(
@@ -19,7 +25,12 @@ class EloquentUserRepository implements UserRepository
         );
     }
 
-    public function findByEmail(string $email): User | Null
+    /**
+     * Find a user by email.
+     * @param string $email
+     * @return User|null
+     */
+    public function findByEmail(string $email): User|null
     {
         return User::query()->where('email', $email)->first();
     }

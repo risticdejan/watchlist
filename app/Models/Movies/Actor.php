@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Watchlist;
+namespace App\Models\Movies;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[Fillable(['name'])]
-class Genre extends Model
+class Actor extends Model
 {
     public function movies(): BelongsToMany
     {
