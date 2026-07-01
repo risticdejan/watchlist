@@ -3,6 +3,19 @@
 A small REST API app for adding movies to a watchlist. Authentication and authorization implemented.
 Adding is enabled via the imdb_id parameter and movie details are added externally from the link http://www.omdbapi.com/
 
+## Architecture
+
+The project follows a layered architecture to keep responsibilities well separated.
+
+### Layers
+
+- **Controllers** handle HTTP requests and responses.
+- **Form Requests** validate incoming data.
+- **Services** contain the application's business logic.
+- **Repositories** abstract data access behind interfaces.
+- **Eloquent Repositories** provide the concrete database implementation.
+- **DTOs** transfer validated data between layers.
+
 ## Technologies
 
 - PHP 8.3
@@ -31,6 +44,52 @@ A policy is used to restrict access to deleting and editing data in the watchlis
 ### Why Laravel Sanctum?
 
 Sanctum is the appropriate auth approach for this Laravel API because it is lightweight, built into Laravel, and supports token-based authentication without the extra complexity of Passport or a fully custom JWT solution.
+
+## Postman Collection
+
+A ready-to-use Postman collection is included in the project root for testing all available API endpoints.
+
+Import the collection into Postman:
+
+- [`interview.postman_collection.json`](./interview.postman_collection.json)
+
+## API Endpoints
+
+### Authentication
+
+| Method | Endpoint             | Description                               |
+| :----: | :------------------- | :---------------------------------------- |
+|  POST  | `/api/auth/register` | Register a new user                       |
+|  POST  | `/api/auth/login`    | Authenticate user and return an API token |
+|  POST  | `/api/auth/logout`   | Revoke the current API token              |
+|  GET   | `/api/user`          | Retrieve the authenticated user's profile |
+
+### Watchlist
+
+| Method | Endpoint              | Description                                 |
+| :----: | :-------------------- | :------------------------------------------ |
+|  GET   | `/api/watchlist`      | Retrieve the authenticated user's watchlist |
+|  POST  | `/api/watchlist`      | Add a movie to the watchlist                |
+|  GET   | `/api/watchlist/{id}` | Retrieve a single watchlist item            |
+| PATCH  | `/api/watchlist/{id}` | Update a watchlist item                     |
+| DELETE | `/api/watchlist/{id}` | Remove a movie from the watchlist           |
+
+### Query Parameters
+
+The `GET /api/watchlist` endpoint supports the following optional query parameters:
+
+| Parameter | Description                                                    |
+| :-------- | :------------------------------------------------------------- |
+| `page`    | Current page number                                            |
+| `perPage` | Number of items per page                                       |
+| `search`  | Search by movie title                                          |
+| `status`  | Filter by watchlist status (`to_watch`, `watching`, `watched`) |
+
+Example:
+
+```http
+GET /api/watchlist?page=1&perPage=10&search=batman&status=watched
+```
 
 ## Installation
 
